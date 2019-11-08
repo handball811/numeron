@@ -1,0 +1,16 @@
+version: '3'
+services:
+  process-database:
+    build: ./process-database
+    volumes:
+      - ./process-database/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PROCESS_DATABASE_ROOT_PASSWORD}
+      MYSQL_USER: ${PROCESS_DATABASE_USER}
+      MYSQL_PASSWORD: ${PROCESS_DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${PROCESS_DATABASE_DATABASE}
+      TZ: ${PROCESS_DATABASE_TZ}
+    expose:
+      - "3306"
+
+  

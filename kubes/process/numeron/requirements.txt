@@ -1,0 +1,6 @@
+Flask
+Flask-GraphQL
+mysqlclient
+SQLAlchemy
+sqlalchemy_utils
+graphene_sqlalchemy

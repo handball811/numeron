@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: access
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: access
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 0%
+  template:
+    metadata:
+      labels:
+        app: access
+    spec:
+      containers:
+        - name: access-slack
+          image: sasakuna/numeron-access-slack
+          env:
+            - name: SLACK_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: access-slack
+                  key: api_token

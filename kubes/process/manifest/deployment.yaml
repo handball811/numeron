@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: process
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: process
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 0%
+  template:
+    metadata:
+      labels:
+        app: process
+    spec:
+      containers:
+        - name: process-numeron
+          image: sasakuna/numeron-process-numeron
+          ports:
+          - containerPort: 5000
+          env:
+            - name: FLASK_APP
+              value: "manage:app"
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: storage-secret
+                  key: host
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: storage-secret
+                  key: user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: storage-secret
+                  key: password
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: storage-secret
+                  key: database

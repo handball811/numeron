@@ -1,0 +1,19 @@
+version: '3'
+service:
+  access-slack:
+    build: ./access/slack
+    restart: always
+    environment:
+      SLACK_API_TOKEN: ${ACCESS_SLACK_API_TOKEN}
+      PROCESS_NETWORK_SERVICE_HOST: process-numeron
+  process-numeron:
+    build: ./process/numeron
+    environment:
+      FLASK_APP: manage:app
+      MYSQL_HOST: ${PROCESS_DATABASE_HOST}
+      MYSQL_ROOT_PASSWORD: ${PROCESS_DATABASE_ROOT_PASSWORD}
+      MYSQL_USER: ${PROCESS_DATABASE_USER}
+      MYSQL_PASSWORD: ${PROCESS_DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${PROCESS_DATABASE_DATABASE}
+    expose:
+      - "5000"
